@@ -1,0 +1,40 @@
+{
+    "Screens":[
+        "MapScreen",
+        "HUDScreen",
+        "QuestScreen",
+        "ToastScreen"
+    ],
+    "MapScreen":{
+        "StartX":30,
+        "StartY":0,
+        "ScreenWidth":40,
+        "ScreenHeight":40
+    },
+    "HUDScreen":{
+        "StartX":0,
+        "StartY":0,
+        "ScreenWidth":30,
+        "ScreenHeight":5
+    },
+    "QuestScreen":{
+        "StartX":0,
+        "StartY":5,
+        "ScreenWidth":30,
+        "ScreenHeight":8
+    },
+    "ToastScreen":{
+        "StartX":0,
+        "StartY":16,
+        "ScreenWidth":30,
+        "ScreenHeight":24
+    },
+
+    "WindowWidth":70,
+    "WindowHeight":40,
+
+    "ResourceFolder":"res/",
+    "DefaultDataPack":"official",
+
+    "FontFile":"terminal10x10_gs_tc.png"
+}

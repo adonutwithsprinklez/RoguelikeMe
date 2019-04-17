@@ -1,0 +1,10 @@
+{
+    "Name":"Test Region",
+    "RegionID":"TestRegion",
+    "Tiles":{
+        "empty":{"icon":".", "walkable":true, "viewable":true, "color":[255,255,255]}
+    },
+    "Generation":[
+        ["fill_rect","empty",0,0,-1,-1]
+    ]
+}

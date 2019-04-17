@@ -1,0 +1,8 @@
+{
+    "Name":"Official Data Pack",
+    "Desc":"The official data pack for Roguelike Me",
+    "RegionFolder":"regions/",
+    "Regions":[
+        "test_region"
+    ]
+}
