@@ -36,5 +36,7 @@
     "ResourceFolder":"res/",
     "DefaultDataPack":"official",
 
+    "DefaultPlayerName":"Player Name",
+
     "FontFile":"terminal10x10_gs_tc.png"
 }

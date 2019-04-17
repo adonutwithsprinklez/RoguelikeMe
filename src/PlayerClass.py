@@ -4,12 +4,12 @@ import tcod as libtcod
 from DrawOrderClass import BasicDrawOrder, BarDrawOrder, TextDrawOrder
 
 class PlayerObject(object):
-    def __init__(self):
+    def __init__(self, name="The Reaper"):
         self.coordX = 0
         self.coordY = 0
 
         self.icon = "@"
-        self.name = "Player"
+        self.name = name
 
         self.hp = 20
         self.maxHP = self.hp
@@ -21,8 +21,10 @@ class PlayerObject(object):
         self.maxMagic = self.magic
 
         self.level = 1
-        self.xp = 10
+        self.xp = 0
         self.xpToNextLevel = 20
+
+        self.backlog = []
 
     def getDrawOrders(self, map_console, hud_console, quest_console, hud_width=30):
         drawOrders = []
@@ -55,8 +57,25 @@ class PlayerObject(object):
         barwidth = int(float(self.magic) / self.maxMagic * hud_width)
         return BarDrawOrder(hud_console, "Magic ({}/{})".format(self.magic, self.maxMagic), barwidth, libtcod.darker_blue, 0, 4)
     
+    def getBacklog(self):
+        backlog = self.backlog
+        self.backlog = []
+        return backlog
+
     def getX(self):
         return self.coordX
     
     def getY(self):
         return self.coordY
+    
+    def moveY(self, direction=0, walkable=True):
+        if self.coordY + direction > 0 and walkable:
+            self.coordY += direction
+        else:
+            self.backlog.append(("toast","Unable to move in that direction."))
+
+    def moveX(self, direction=0, walkable=True):
+        if self.coordX + direction > 0 and walkable:
+            self.coordX += direction
+        else:
+            self.backlog.append(("toast","Unable to move in that direction."))
