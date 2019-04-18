@@ -19,6 +19,10 @@ def processKeyPress(key):
         return ('movePlayer', 2)
     elif key.vk == libtcod.KEY_LEFT or keyChar == "a":
         return ('movePlayer', 3)
+    
+    # Game Debug key
+#    elif keyChar == "p":
+#        return ('GameDebug',True)
 
     # Not a proper key presses
     else:

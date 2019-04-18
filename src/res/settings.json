@@ -6,32 +6,32 @@
         "ToastScreen"
     ],
     "MapScreen":{
-        "StartX":30,
+        "StartX":40,
         "StartY":0,
-        "ScreenWidth":40,
-        "ScreenHeight":40
+        "ScreenWidth":50,
+        "ScreenHeight":50
     },
     "HUDScreen":{
         "StartX":0,
         "StartY":0,
-        "ScreenWidth":30,
+        "ScreenWidth":40,
         "ScreenHeight":5
     },
     "QuestScreen":{
         "StartX":0,
         "StartY":5,
-        "ScreenWidth":30,
+        "ScreenWidth":40,
         "ScreenHeight":8
     },
     "ToastScreen":{
         "StartX":0,
         "StartY":16,
-        "ScreenWidth":30,
-        "ScreenHeight":24
+        "ScreenWidth":40,
+        "ScreenHeight":34
     },
 
-    "WindowWidth":70,
-    "WindowHeight":40,
+    "WindowWidth":90,
+    "WindowHeight":50,
 
     "ResourceFolder":"res/",
     "DefaultDataPack":"official",

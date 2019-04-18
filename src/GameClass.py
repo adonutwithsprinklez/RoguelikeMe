@@ -3,6 +3,7 @@ from jsonDecoder import loadJson
 from MapClass import RegionObject
 from PlayerClass import PlayerObject
 from SettingsClass import SettingsObject
+from ToastClass import ToastObject
 
 class GameObject(object):
     def __init__(self, settings):
@@ -16,6 +17,12 @@ class GameObject(object):
         self.hudSettings = settings.getSetting("HUDScreen")
         self.hudWidth = self.hudSettings["ScreenWidth"]
         self.hudHeight = self.hudSettings["ScreenWidth"]
+        self.toastSettings = settings.getSetting("ToastScreen")
+        self.toastWidth = self.toastSettings["ScreenWidth"]
+        self.toastHeight = self.toastSettings["ScreenHeight"]
+
+        # Create the toasting object
+        self.toaster = ToastObject(self.toastHeight, self.toastWidth)
 
         # Get data pack info
         resFolder = self.settings.getSetting("ResourceFolder")
@@ -28,7 +35,7 @@ class GameObject(object):
         test_region_name = self.dataPackInfo.getSetting("RegionStart")
         test_region_file = "{}{}/{}{}.json".format(resFolder, dataPackFolder, regionFolder, test_region_name)
         test_region_data = loadJson(test_region_file)
-        self.currentRegion = RegionObject(test_region_data)
+        self.currentRegion = RegionObject(test_region_data, self.mapWidth, self.mapHeight)
         self.currentRegion.generateWorld()
 
         # Create the player
@@ -40,11 +47,17 @@ class GameObject(object):
         self.toDraw = []
         self.backlog = []
 
+        self.toaster.toast("Welcome to Roguelike Me")
+        self.toaster.toast("This game is an obvious work in progress.")
+
     def getToDraw(self, mapConsole, hud_console, quest_console, toast_console):
         for drawOrder in self.currentRegion.getDrawOrders(mapConsole):
             self.toDraw.append(drawOrder)
 
         for drawOrder in self.player.getDrawOrders(mapConsole, hud_console, quest_console, self.hudWidth):
+            self.toDraw.append(drawOrder)
+
+        for drawOrder in self.toaster.getDrawOrders(toast_console):
             self.toDraw.append(drawOrder)
 
         toDraw = self.toDraw
@@ -69,9 +82,12 @@ class GameObject(object):
                 elif action[1] == 3 and self.player.getX() > 0:
                     walkable = self.currentRegion.getWalkable(self.player.getX()-1,self.player.getY())
                     self.player.moveX(-1, walkable)
+#            elif action[0] == "GameDebug":
+#                self.toaster.toast("Player coords: ({},{})".format(
+#                    self.player.getX(), self.player.getY()))
+#                self.toaster.toast("This really long action that should be put onto 2 lines")
         for action in self.player.getBacklog():
             if action[0] == "toast":
-                print(action[1])
-        
+                self.toaster.toast(action[1])
         if clearBacklog:
             self.backlog = []
