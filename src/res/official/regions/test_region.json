@@ -2,18 +2,20 @@
     "Name":"Test Region",
     "RegionID":"TestRegion",
     "Tiles":[
-        {"tileid":"empty", "icon":".", "walkable":true, "viewable":true, "color":[255,255,255]},
-        {"tileid":"wall", "icon":"#", "walkable":false, "viewable":false, "color":[255,255,255]}
+        {"tileid":"empty", "icon":".", "walkable":true, "viewable":true, "color":[100,255,100]},
+        {"tileid":"empty2", "icon":".", "walkable":true, "viewable":true, "color":[50,150,50]},
+        {"tileid":"wall", "icon":"#", "walkable":false, "viewable":false, "color":[150,150,150]},
+        {"tileid":"wall2", "icon":"#", "walkable":false, "viewable":false, "color":[100,100,100]}
     ],
     "Generation":[
-        ["fill_rect","empty",0,0,-1,-1],
-        ["fill_rect","wall",0,0,-1,1],
-        ["fill_rect","wall",0,0,1,-1],
-        ["fill_rect","wall",-1,0,-1,-1],
-        ["fill_rect","wall",0,-1,-1,-1],
-        ["place_random","wall",0,0,10,-1,50],
-        ["place_random","wall",30,0,-1,-1,50],
-        ["place_random","wall",0,0,-1,10,50],
-        ["place_random","wall",0,30,-1,-1,50]
+        ["fill_rect",["empty","empty2"],0,0,-1,-1],
+        ["fill_rect",["wall","wall2"],0,0,-1,1],
+        ["fill_rect",["wall","wall2"],0,0,1,-1],
+        ["fill_rect",["wall","wall2"],-1,0,-1,-1],
+        ["fill_rect",["wall","wall2"],0,-1,-1,-1],
+        ["place_random",["wall","wall2"],0,0,10,-1,50],
+        ["place_random",["wall","wall2"],30,0,-1,-1,50],
+        ["place_random",["wall","wall2"],0,0,-1,10,50],
+        ["place_random",["wall","wall2"],0,30,-1,-1,50]
     ]
 }

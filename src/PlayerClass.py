@@ -28,7 +28,7 @@ class PlayerObject(object):
 
     def getDrawOrders(self, map_console, hud_console, quest_console, hud_width=30):
         drawOrders = []
-        drawOrders.append(BasicDrawOrder(map_console, self.icon, self.coordX, self.coordY))
+        drawOrders.append(BasicDrawOrder(map_console, self.icon, libtcod.white, self.coordX, self.coordY))
         drawOrders.append(self.getTitleDrawOrder(hud_console, hud_width))
         drawOrders.append(
             self.getExperienceBarDrawOrder(hud_console, hud_width))

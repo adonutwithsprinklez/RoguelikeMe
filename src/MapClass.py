@@ -1,5 +1,6 @@
 
 import random
+import tcod as libtcod
 
 from DrawOrderClass import BasicDrawOrder
 
@@ -7,6 +8,7 @@ class Tile(object):
     def __init__(self, draw_icon = " ", view_passed=True, walkable=None, color=[255,255,255]):
         self.icon = draw_icon
         self.viewPassed = view_passed
+        self.color = libtcod.Color(color[0], color[1], color[2])
         
         # Defaults to viewPassed, otherwise goes to whatever is passed
         if walkable:
@@ -63,7 +65,6 @@ class RegionObject(object):
         
         for instruction in self.generationInstructions:
             command = instruction[0]
-            print(command)
             args = instruction[1]
 
             if command == "fill_rect":
@@ -73,7 +74,7 @@ class RegionObject(object):
     
     # Generation functions
     def fillRect(self, args):
-        filltile = args[0]
+        filltiles = args[0]
         startx = args[1]
         starty = args[2]
         endx = args[3]
@@ -90,14 +91,14 @@ class RegionObject(object):
         for column in self.chunk[startx:endx]:
             y = starty
             for tile in column[starty:endy]:
-                self.chunk[x][y] = filltile
+                self.chunk[x][y] = random.choice(filltiles)
                 y+=1
             x+=1
         self.chunk[0][0] = "wall"
         self.chunk[39][39] = "wall"
     
     def placeRandom(self,args):
-        filltile = args[0]
+        filltiles = args[0]
         startx = args[1]
         starty = args[2]
         endx = args[3]
@@ -113,7 +114,7 @@ class RegionObject(object):
             endy = self.height-1
         for i in range(0,numToPlace):
             x,y = random.randint(startx,endx), random.randint(starty,endy)
-            self.chunk[x][y] = filltile
+            self.chunk[x][y] = random.choice(filltiles)
         
     # Getter functions
     def getDrawOrders(self, map_console):
@@ -124,9 +125,11 @@ class RegionObject(object):
             for tile in column:
                 if tile:
                     tileicon = self.tiles[tile].icon
+                    tilecolor = self.tiles[tile].color
                 else:
                     tileicon = " "
-                newOrder = BasicDrawOrder(map_console,tileicon,x,y)
+                    tilecolor = None
+                newOrder = BasicDrawOrder(map_console,tileicon,tilecolor,x,y)
                 drawOrders.append(newOrder)
                 y+=1
             x+=1

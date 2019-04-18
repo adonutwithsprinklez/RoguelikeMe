@@ -27,8 +27,11 @@ class DisplayObject(object):
             self.drawOrders = []
 
     def drawChar(self, drawInfo):
-        libtcod.console_put_char(drawInfo[0], drawInfo[1], drawInfo[2],
-                                 drawInfo[3], libtcod.BKGND_NONE)
+        if drawInfo[1]:
+            libtcod.console_set_default_foreground(drawInfo[0], drawInfo[1])
+        libtcod.console_put_char(drawInfo[0], drawInfo[2], drawInfo[3],
+                                 drawInfo[4], libtcod.BKGND_NONE)
+        libtcod.console_set_default_foreground(drawInfo[0], libtcod.white)
     
     def drawText(self, drawInfo):
         if drawInfo[4] == "left":
