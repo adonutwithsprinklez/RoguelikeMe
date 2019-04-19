@@ -5,7 +5,9 @@
         {"tileid":"empty", "icon":".", "walkable":true, "viewable":true, "color":[100,255,100]},
         {"tileid":"empty2", "icon":".", "walkable":true, "viewable":true, "color":[50,150,50]},
         {"tileid":"wall", "icon":"#", "walkable":false, "viewable":false, "color":[150,150,150]},
-        {"tileid":"wall2", "icon":"#", "walkable":false, "viewable":false, "color":[100,100,100]}
+        {"tileid":"wall2", "icon":"#", "walkable":false, "viewable":false, "color":[100,100,100]},
+        {"tileid":"floor", "icon":".", "walkable":true, "viewable":true, "color":[77,38,0]},
+        {"tileid":"door", "icon":"[", "walkable":true, "viewable":false, "color":[200,100,10]}
     ],
     "Generation":[
         ["fill_rect",["empty","empty2"],0,0,-1,-1],
@@ -13,9 +15,16 @@
         ["fill_rect",["wall","wall2"],0,0,1,-1],
         ["fill_rect",["wall","wall2"],-1,0,-1,-1],
         ["fill_rect",["wall","wall2"],0,-1,-1,-1],
-        ["place_random",["wall","wall2"],0,0,10,-1,50],
-        ["place_random",["wall","wall2"],40,0,-1,-1,50],
-        ["place_random",["wall","wall2"],0,0,-1,10,50],
-        ["place_random",["wall","wall2"],0,40,-1,-1,50]
+        ["place_random",["wall","wall2"],0,0,5,-1,50],
+        ["place_random",["wall","wall2"],45,0,-1,-1,50],
+        ["place_random",["wall","wall2"],0,0,-1,5,50],
+        ["place_random",["wall","wall2"],0,45,-1,-1,50],
+        ["set_variable","rand_num", "$x",[6,34]],
+        ["set_variable","rand_num","$y",[6,34]],
+        ["set_variable","rand_num","$w",[5,10]],
+        ["set_variable","rand_num","$h",[5,10]],
+        ["fill_rect",["wall","wall2"],"$x","$y","$x;$w", "$y;$h"],
+        ["fill_rect",["floor"],"$x;+1", "$y;+1", "$x;$w;-1", "$y;$h;-1"],
+        ["place_tile",["door"],"$x","$h;/2;$y"]
     ]
 }

@@ -54,6 +54,7 @@ class RegionObject(object):
             else:
                 newstep = (instructID)
             self.generationInstructions.append(newstep)
+        self.tempVariables = {}
     
     def generateWorld(self):
         self.chunk = []
@@ -71,14 +72,57 @@ class RegionObject(object):
                 self.fillRect(args)
             elif command == "place_random":
                 self.placeRandom(args)
+            elif command == "place_tile":
+                self.placeTile(args)
+            elif command == "set_variable":
+                self.setVariable(args)
+        # Clear temporary variables
+        self.tempVariables = {}
     
     # Generation functions
+    def setVariable(self, args):
+        variableType = args[0]
+        varName = args[1] 
+        if variableType == "str" or variableType == "num":
+            varVal = args[2]
+        elif variableType == "rand_num":
+            minVal = args[2][0]
+            maxVal = args[2][1]
+            varVal = random.randint(minVal, maxVal)
+        self.tempVariables[varName] = varVal
+        print("{} - {}".format(varName, self.tempVariables[varName]))
+    
+    def parseValue(self, varType="int", varValue="0"):
+        parsedVal = None
+        print(varValue)
+        if varType == "int":
+            if type(varValue) is int:
+                parsedVal = varValue
+            else:
+                parts = varValue.split(";")
+                parsedVal = 0
+                for part in parts:
+                    print(part)
+                    if part[0] == "$":
+                        parsedVal += self.tempVariables[part]
+                    elif part[0] == "+":
+                        parsedVal += int(part[1:])
+                    elif part[0] == "-":
+                        parsedVal -= int(part[1:])
+                    elif part[0] == "/":
+                        parsedVal /= int(part[1:])
+                        parsedVal = int(parsedVal)
+                    elif part[0] == "*":
+                        parsedVal *= int(part[1:])
+                        parsedVal = int(parsedVal)
+        return parsedVal
+        
     def fillRect(self, args):
         filltiles = args[0]
-        startx = args[1]
-        starty = args[2]
-        endx = args[3]
-        endy = args[4]
+        startx = self.parseValue("int", args[1])
+        starty = self.parseValue("int", args[2])
+        endx = self.parseValue("int", args[3])
+        endy = self.parseValue("int", args[4])
         if startx == -1:
             startx = self.width-1
         if starty == -1:
@@ -115,6 +159,12 @@ class RegionObject(object):
         for i in range(0,numToPlace):
             x,y = random.randint(startx,endx), random.randint(starty,endy)
             self.chunk[x][y] = random.choice(filltiles)
+    
+    def placeTile(self, args):
+        fillTiles = args[0]
+        x = self.parseValue("int", args[1])
+        y = self.parseValue("int", args[2])
+        self.chunk[x][y] = random.choice(fillTiles)
         
     # Getter functions
     def getDrawOrders(self, map_console):
