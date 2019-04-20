@@ -9,6 +9,9 @@
         {"tileid":"floor", "icon":".", "walkable":true, "viewable":true, "color":[77,38,0]},
         {"tileid":"door", "icon":"[", "walkable":true, "viewable":false, "color":[200,100,10]}
     ],
+    "Procs":[
+        "test_proc"
+    ],
     "Generation":[
         ["fill_rect",["empty","empty2"],0,0,-1,-1],
         ["fill_rect",["wall","wall2"],0,0,-1,1],
@@ -19,12 +22,15 @@
         ["place_random",["wall","wall2"],45,0,-1,-1,50],
         ["place_random",["wall","wall2"],0,0,-1,5,50],
         ["place_random",["wall","wall2"],0,45,-1,-1,50],
-        ["set_variable","rand_num", "$x",[6,34]],
-        ["set_variable","rand_num","$y",[6,34]],
+        ["set_variable","rand_num", "$x",[7,15]],
+        ["set_variable","rand_num","$y",[7,15]],
         ["set_variable","rand_num","$w",[5,10]],
         ["set_variable","rand_num","$h",[5,10]],
         ["fill_rect",["wall","wall2"],"$x","$y","$x;$w", "$y;$h"],
         ["fill_rect",["floor"],"$x;+1", "$y;+1", "$x;$w;-1", "$y;$h;-1"],
-        ["place_tile",["door"],"$x","$h;/2;$y"]
+        ["place_tile",["door"],"$x","$h;/2;$y"],
+        ["set_variable","rand_num","$x",[25,35]],
+        ["set_variable","rand_num","$y",[25,35]],
+        ["place_proc",["test_proc"],"$x","$y"]
     ]
 }

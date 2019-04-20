@@ -1,6 +1,7 @@
 
+from DatapackClass import DatapackObject
 from jsonDecoder import loadJson
-from MapClass import RegionObject
+from MapClass import MapObject
 from PlayerClass import PlayerObject
 from SettingsClass import SettingsObject
 from ToastClass import ToastObject
@@ -26,17 +27,15 @@ class GameObject(object):
 
         # Get data pack info
         resFolder = self.settings.getSetting("ResourceFolder")
-        dataPackFolder = self.settings.getSetting("DefaultDataPack")
-        dataPackMetaFile = "{}{}/meta.json".format(resFolder, dataPackFolder)
-        self.dataPackInfo = SettingsObject(dataPackMetaFile, False)
+        dataPackFolder = "{}{}/".format(
+            resFolder, self.settings.getSetting("DefaultDataPack"))
+        dataPackMetaFile = "{}meta.json".format(dataPackFolder)
+        loadedDataPackMetaFile = loadJson(dataPackMetaFile)
+        dataPackInfo = DatapackObject(loadedDataPackMetaFile, dataPackFolder)
 
         # Create the gamemap
-        regionFolder = self.dataPackInfo.getSetting("RegionFolder")
-        test_region_name = self.dataPackInfo.getSetting("RegionStart")
-        test_region_file = "{}{}/{}{}.json".format(resFolder, dataPackFolder, regionFolder, test_region_name)
-        test_region_data = loadJson(test_region_file)
-        self.currentRegion = RegionObject(test_region_data, self.mapWidth, self.mapHeight)
-        self.currentRegion.generateWorld()
+        self.gameMap = MapObject(dataPackInfo, self.mapWidth, self.mapHeight)
+        self.gameMap.generateRegion()
 
         # Create the player
         playername = self.settings.getSetting("DefaultPlayerName")
@@ -51,7 +50,7 @@ class GameObject(object):
         self.toaster.toast("This game is an obvious work in progress.")
 
     def getToDraw(self, mapConsole, hud_console, quest_console, toast_console):
-        for drawOrder in self.currentRegion.getDrawOrders(mapConsole):
+        for drawOrder in self.gameMap.getDrawOrders(mapConsole):
             self.toDraw.append(drawOrder)
 
         for drawOrder in self.player.getDrawOrders(mapConsole, hud_console, quest_console, self.hudWidth):
@@ -71,16 +70,20 @@ class GameObject(object):
         for action in self.backlog:
             if action[0] == "movePlayer":
                 if action[1] == 0 and self.player.getY() > 0:
-                    walkable = self.currentRegion.getWalkable(self.player.getX(),self.player.getY()-1)
+                    walkable = self.gameMap.getWalkable(
+                        self.player.getX(), self.player.getY()-1)
                     self.player.moveY(-1, walkable)
                 elif action[1] == 1 and self.player.getX() < self.mapWidth-1:
-                    walkable = self.currentRegion.getWalkable(self.player.getX()+1,self.player.getY())
+                    walkable = self.gameMap.getWalkable(
+                        self.player.getX()+1, self.player.getY())
                     self.player.moveX(1, walkable)
                 elif action[1] == 2 and self.player.getY() < self.mapHeight-1:
-                    walkable = self.currentRegion.getWalkable(self.player.getX(),self.player.getY()+1)
+                    walkable = self.gameMap.getWalkable(
+                        self.player.getX(), self.player.getY()+1)
                     self.player.moveY(1, walkable)
                 elif action[1] == 3 and self.player.getX() > 0:
-                    walkable = self.currentRegion.getWalkable(self.player.getX()-1,self.player.getY())
+                    walkable = self.gameMap.getWalkable(
+                        self.player.getX()-1, self.player.getY())
                     self.player.moveX(-1, walkable)
 #            elif action[0] == "GameDebug":
 #                self.toaster.toast("Player coords: ({},{})".format(

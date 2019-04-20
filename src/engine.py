@@ -74,6 +74,7 @@ def main():
                 # If the action is meant for the game itself instead of the program,
                 # send it forward to the game to update later
                 Game.addActionToBacklog(action)
+            # Process backlog after keypress if the action did something.
             Game.processBacklog()
 
         # Get all draw updates from the Game

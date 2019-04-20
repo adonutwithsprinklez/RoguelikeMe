@@ -1,9 +1,15 @@
 {
     "Name":"Official Data Pack",
     "Desc":"The official data pack for Roguelike Me",
+    
     "RegionFolder":"regions/",
     "RegionStart":"test_region",
     "Regions":[
         "test_region"
+    ],
+    
+    "ProcFolder":"procs/",
+    "Procs":[
+        "test_proc"
     ]
 }
