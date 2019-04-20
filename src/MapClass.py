@@ -24,4 +24,4 @@ class MapObject(object):
         return toDraw
     
     def getWalkable(self, player_x=0, player_y=0):
-        return True
+        return self.currentRegion.getWalkable(player_x, player_y)
