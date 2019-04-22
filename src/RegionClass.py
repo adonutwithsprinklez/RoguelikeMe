@@ -11,23 +11,14 @@ class RegionObject(object):
         self.data = region_data
         self.name = self.data["Name"]
         self.regionID = self.data["RegionID"]
+        self.unloadedTiles = self.data["Tiles"]
         self.procfiles = self.data["Procs"]
 
         # Region dimensions
         self.width = width
         self.height = height
         self.chunk = []
-
-        # Load tiles
         self.tiles = {}
-        for tiledata in self.data["Tiles"]:
-            tileID = tiledata["tileid"]
-            tileIcon = tiledata["icon"]
-            tileWalkable = tiledata["walkable"]
-            tilePassable = tiledata["viewable"]
-            tileColor = tiledata["color"]
-            self.tiles[tileID] = Tile(
-                tileIcon, tilePassable, tileWalkable, tileColor)
 
         # Load generation instructions
         self.generationInstructions = []
@@ -40,6 +31,25 @@ class RegionObject(object):
                 newstep = (instructID)
             self.generationInstructions.append(newstep)
         self.tempVariables = {}
+
+    def loadTiles(self, neededTiles=[]):
+        for tile in neededTiles:
+            tileId = tile["tileid"]
+            tileIcon = tile["icon"]
+            tilePassable = tile["viewable"]
+            tileWalkable = tile["walkable"]
+            tileColor = tile["color"]
+            self.tiles[tileId] = Tile(
+                tileIcon, tilePassable, tileWalkable, tileColor)
+
+        for tiledata in self.data["CustomTiles"]:
+            tileID = tiledata["tileid"]
+            tileIcon = tiledata["icon"]
+            tileWalkable = tiledata["walkable"]
+            tilePassable = tiledata["viewable"]
+            tileColor = tiledata["color"]
+            self.tiles[tileID] = Tile(
+                tileIcon, tilePassable, tileWalkable, tileColor)
 
     def generateWorld(self):
         self.chunk = []
@@ -173,3 +183,6 @@ class RegionObject(object):
 
     def getProcs(self):
         return self.procfiles
+
+    def getUnloadedTiles(self):
+        return self.unloadedTiles

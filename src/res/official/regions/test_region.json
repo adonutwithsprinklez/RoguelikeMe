@@ -2,10 +2,12 @@
     "Name":"Test Region",
     "RegionID":"TestRegion",
     "Tiles":[
-        {"tileid":"empty", "icon":".", "walkable":true, "viewable":true, "color":[100,255,100]},
-        {"tileid":"empty2", "icon":".", "walkable":true, "viewable":true, "color":[50,150,50]},
-        {"tileid":"wall", "icon":"#", "walkable":false, "viewable":false, "color":[150,150,150]},
-        {"tileid":"wall2", "icon":"#", "walkable":false, "viewable":false, "color":[100,100,100]},
+        "empty",
+        "empty2",
+        "wall",
+        "wall2"
+    ],
+    "CustomTiles":[
         {"tileid":"floor", "icon":".", "walkable":true, "viewable":true, "color":[77,38,0]},
         {"tileid":"door", "icon":"[", "walkable":true, "viewable":false, "color":[200,100,10]}
     ],
