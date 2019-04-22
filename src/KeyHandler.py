@@ -21,8 +21,8 @@ def processKeyPress(key):
         return ('movePlayer', 3)
     
     # Game Debug key
-#    elif keyChar == "p":
-#        return ('GameDebug',True)
+    elif keyChar == "p":
+        return ('GameDebug',True)
 
     # Not a proper key presses
     else:

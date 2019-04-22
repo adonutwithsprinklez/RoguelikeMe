@@ -14,7 +14,7 @@ from SettingsClass import SettingsObject
 #
 # This is the function that creates the game object, loads the settings,
 # and runs the games main loop
-def main():
+def start(debug=False):
     SETTINGS = SettingsObject("res/settings.json")
 
     # Start setting up the screens/panels
@@ -50,7 +50,7 @@ def main():
         window_width, window_height, 'Roguelike Me', False)
 
     # Create the game object:
-    Game = GameObject(SETTINGS)
+    Game = GameObject(SETTINGS, debug)
 
 
     #
@@ -94,4 +94,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    start(True)

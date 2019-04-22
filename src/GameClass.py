@@ -7,9 +7,10 @@ from SettingsClass import SettingsObject
 from ToastClass import ToastObject
 
 class GameObject(object):
-    def __init__(self, settings):
+    def __init__(self, settings, debug=False):
 
         self.settings = settings
+        self.debug = debug
 
         # Get some display variables
         self.mapSettings = settings.getSetting("MapScreen")
@@ -85,10 +86,11 @@ class GameObject(object):
                     walkable = self.gameMap.getWalkable(
                         self.player.getX()-1, self.player.getY())
                     self.player.moveX(-1, walkable)
-#            elif action[0] == "GameDebug":
-#                self.toaster.toast("Player coords: ({},{})".format(
-#                    self.player.getX(), self.player.getY()))
-#                self.toaster.toast("This really long action that should be put onto 2 lines")
+            elif self.debug and action[0] == "GameDebug":
+                self.toaster.toast("Player coords: ({},{})".format(
+                    self.player.getX(), self.player.getY()))
+                self.toaster.toast("Generating map again")
+                self.gameMap.generateRegion()
         for action in self.player.getBacklog():
             if action[0] == "toast":
                 self.toaster.toast(action[1])

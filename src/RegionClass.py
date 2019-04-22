@@ -120,8 +120,6 @@ class RegionObject(object):
                 self.chunk[x][y] = random.choice(filltiles)
                 y += 1
             x += 1
-        self.chunk[0][0] = "wall"
-        self.chunk[39][39] = "wall"
 
     def placeRandom(self, args):
         filltiles = args[0]
