@@ -2,6 +2,10 @@
     "Name":"Official Data Pack",
     "Desc":"The official data pack for Roguelike Me",
     
+    "TileFolder":"tiles/",
+    "Tiles":[
+        "basic_tiles"
+    ],
     "RegionFolder":"regions/",
     "RegionStart":"test_region",
     "Regions":[

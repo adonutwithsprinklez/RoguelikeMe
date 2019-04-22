@@ -33,23 +33,21 @@ class RegionObject(object):
         self.tempVariables = {}
 
     def loadTiles(self, neededTiles=[]):
-        for tile in neededTiles:
-            tileId = tile["tileid"]
-            tileIcon = tile["icon"]
-            tilePassable = tile["viewable"]
-            tileWalkable = tile["walkable"]
-            tileColor = tile["color"]
-            self.tiles[tileId] = Tile(
-                tileIcon, tilePassable, tileWalkable, tileColor)
+        for tiledata in neededTiles:
+            self.loadTile(tiledata)
 
         for tiledata in self.data["CustomTiles"]:
-            tileID = tiledata["tileid"]
-            tileIcon = tiledata["icon"]
-            tileWalkable = tiledata["walkable"]
-            tilePassable = tiledata["viewable"]
-            tileColor = tiledata["color"]
-            self.tiles[tileID] = Tile(
-                tileIcon, tilePassable, tileWalkable, tileColor)
+            self.loadTile(tiledata)
+            
+    
+    def loadTile(self, tiledata):
+        tileID = tiledata["tileid"]
+        tileIcon = tiledata["icon"]
+        tileWalkable = tiledata["walkable"]
+        tilePassable = tiledata["viewable"]
+        tileColor = tiledata["color"]
+        self.tiles[tileID] = Tile(
+            tileIcon, tilePassable, tileWalkable, tileColor)
 
     def generateWorld(self):
         self.chunk = []
@@ -78,8 +76,10 @@ class RegionObject(object):
     def setVariable(self, args):
         variableType = args[0]
         varName = args[1]
-        if variableType == "str" or variableType == "num":
+        if variableType == "str":
             varVal = args[2]
+        elif variableType == "num":
+            varVal = self.parseValue("int", args[2])
         elif variableType == "rand_num":
             minVal = args[2][0]
             maxVal = args[2][1]
@@ -91,6 +91,10 @@ class RegionObject(object):
         if varType == "int":
             if type(varValue) is int:
                 parsedVal = varValue
+            elif varValue == "maxW":
+                parsedVal = self.width-1
+            elif varValue == "maxH":
+                parsedVal = self.height-1
             else:
                 parts = varValue.split(";")
                 parsedVal = 0
@@ -133,10 +137,10 @@ class RegionObject(object):
 
     def placeRandom(self, args):
         filltiles = args[0]
-        startx = args[1]
-        starty = args[2]
-        endx = args[3]
-        endy = args[4]
+        startx = self.parseValue("int", args[1])
+        starty = self.parseValue("int", args[2])
+        endx = self.parseValue("int", args[3])
+        endy = self.parseValue("int", args[4])
         numToPlace = args[5]
         if startx == -1:
             startx = self.width-1
@@ -178,7 +182,11 @@ class RegionObject(object):
         return drawOrders
 
     def getWalkable(self, x=0, y=0):
-        walkable = self.tiles[self.chunk[x][y]].getWalkable()
+        tile =  self.chunk[x][y] 
+        if tile:
+            walkable = self.tiles[tile].getWalkable()
+        else:
+            walkable = True
         return walkable
 
     def getProcs(self):

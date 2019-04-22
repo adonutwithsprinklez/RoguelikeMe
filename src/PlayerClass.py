@@ -69,13 +69,13 @@ class PlayerObject(object):
         return self.coordY
     
     def moveY(self, direction=0, walkable=True):
-        if self.coordY + direction > 0 and walkable:
+        if self.coordY + direction >= 0 and walkable:
             self.coordY += direction
         else:
             self.backlog.append(("toast","Unable to move in that direction."))
 
     def moveX(self, direction=0, walkable=True):
-        if self.coordX + direction > 0 and walkable:
+        if self.coordX + direction >= 0 and walkable:
             self.coordX += direction
         else:
             self.backlog.append(("toast","Unable to move in that direction."))
