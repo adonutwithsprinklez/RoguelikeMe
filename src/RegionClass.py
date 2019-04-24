@@ -8,6 +8,7 @@ from TileClass import Tile
 
 class RegionObject(object):
     def __init__(self, region_data, width=40, height=40):
+         # Load intial data and files
         self.data = region_data
         self.name = self.data["Name"]
         self.regionID = self.data["RegionID"]
@@ -18,18 +19,10 @@ class RegionObject(object):
         self.width = width
         self.height = height
         self.chunk = []
-        self.tiles = {}
 
-        # Load generation instructions
-        self.generationInstructions = []
-        for instruction in self.data["Generation"]:
-            instructID = instruction[0]
-            if len(instruction) > 1:
-                instructArgs = instruction[1:]
-                newstep = (instructID, instructArgs)
-            else:
-                newstep = (instructID)
-            self.generationInstructions.append(newstep)
+        # Initialize data holders for loading
+        self.tiles = {}
+        self.procs = {}
         self.tempVariables = {}
 
     def loadTiles(self, neededTiles=[]):
@@ -50,12 +43,24 @@ class RegionObject(object):
             tileIcon, tilePassable, tileWalkable, tileColor)
 
     def generateWorld(self):
+        # Clear the chunk
         self.chunk = []
         for x in range(0, self.width):
             column = []
             for y in range(0, self.height):
                 column.append(None)
             self.chunk.append(column)
+
+        # Load generation instructions
+        self.generationInstructions = []
+        for instruction in self.data["Generation"]:
+            instructID = instruction[0]
+            if len(instruction) > 1:
+                instructArgs = instruction[1:]
+                newstep = (instructID, instructArgs)
+            else:
+                newstep = (instructID)
+            self.generationInstructions.append(newstep)
 
         for instruction in self.generationInstructions:
             command = instruction[0]

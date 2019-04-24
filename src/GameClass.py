@@ -69,6 +69,7 @@ class GameObject(object):
 
     def processBacklog(self, clearBacklog = True):
         for action in self.backlog:
+            # Player movement
             if action[0] == "movePlayer":
                 if action[1] == 0 and self.player.getY() > 0:
                     walkable = self.gameMap.getWalkable(
@@ -86,6 +87,8 @@ class GameObject(object):
                     walkable = self.gameMap.getWalkable(
                         self.player.getX()-1, self.player.getY())
                     self.player.moveX(-1, walkable)
+            
+            # Debug
             elif self.debug and action[0] == "GameDebug":
                 self.toaster.toast("Player coords: ({},{})".format(
                     self.player.getX(), self.player.getY()))
