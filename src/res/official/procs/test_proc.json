@@ -2,7 +2,6 @@
     "Name":"Test Proc",
     "ProcID":"TestProc",
     "Tiles":[
-
     ],
     "CustomTiles":[
         {"tileid":".", "icon":".", "walkable":true, "viewable":true, "color":[77,38,0]},
@@ -11,12 +10,12 @@
     ],
     "Variations":[
         [
-            ["wwwwwwww"],
-            ["w......w"],
-            ["w......w"],
-            ["w......w"],
-            ["w......w"],
-            ["www[wwww"]
+            "wwwwwwww",
+            "w......w",
+            "w......w",
+            "w......w",
+            "w......w",
+            "www[wwww"
         ]
     ]
 }

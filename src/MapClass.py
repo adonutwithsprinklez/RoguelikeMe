@@ -15,11 +15,15 @@ class MapObject(object):
     def generateRegion(self, region_x=0, region_y=0):
         test_region_data = self.datapackHolder.getRegionData("test_region")
         self.currentRegion = RegionObject(test_region_data, self.width, self.height)
+
+        neededProcs = self.currentRegion.getProcFiles()
+        procsToPass = self.datapackHolder.getProcs(neededProcs)
+        self.currentRegion.loadProcs(procsToPass)
         
         neededTiles = self.currentRegion.getUnloadedTiles()
         tilesToPass = self.datapackHolder.getTiles(neededTiles)
-
         self.currentRegion.loadTiles(tilesToPass)
+        
         self.currentRegion.generateWorld()
     
     def getDrawOrders(self, map_console):

@@ -74,6 +74,8 @@ class RegionObject(object):
                 self.placeTile(args)
             elif command == "set_variable":
                 self.setVariable(args)
+            elif command == "place_proc":
+                self.placeProc(args)
         # Clear temporary variables
         self.tempVariables = {}
 
@@ -90,6 +92,34 @@ class RegionObject(object):
             maxVal = args[2][1]
             varVal = random.randint(minVal, maxVal)
         self.tempVariables[varName] = varVal
+    
+    def placeProc(self, args):
+        # Parse values / load object / set variation
+        placeX = self.parseValue("int", args[1])
+        placeY = self.parseValue("int", args[2])
+        procToPlace = random.choice(args[0])
+        proc = ProcObject(self.procs[procToPlace])
+        variation = random.choice(proc.variations)
+
+        # Load proc tiles into proc object
+        neededTiles = proc.getUnloadedTiles()
+        loadedTiles = []
+        for tile in neededTiles:
+            loadedTiles.append(self.tiles[tile])
+        proc.loadTiles(loadedTiles)
+        
+        for tile in proc.tiles.keys():
+            tileData = proc.tiles[tile]
+            self.tiles[tile] = tileData
+
+        yOffset = 0
+        for row in variation:
+            xOffset = 0
+            for tile in row:
+                tile = "{}-{}".format(proc.procID,tile)
+                self.chunk[placeX + xOffset][placeY + yOffset] = tile
+                xOffset+=1
+            yOffset+=1
 
     def parseValue(self, varType="int", varValue="0"):
         parsedVal = None
@@ -194,8 +224,26 @@ class RegionObject(object):
             walkable = True
         return walkable
 
-    def getProcs(self):
+    def getProcFiles(self):
         return self.procfiles
+    
+    def loadProcs(self, procs={}):
+        for proc in self.procfiles:
+            self.procs[proc] = procs[proc]
+    
+    def getUnloadedProcTiles(self):
+        unloadedTiles = []
+        for proc in self.procs.keys():
+            for unloaded in self.procs[proc]["Tiles"]:
+                tileID = "{}-{}".format(proc,unloaded["tileid"])
+                unloaded["tileid"] = tileID
+                if tileID not in unloadedTiles:
+                    unloadedTiles.append(unloaded)
+        return unloadedTiles
 
     def getUnloadedTiles(self):
-        return self.unloadedTiles
+        tilesToLoad = self.unloadedTiles
+        for tile in self.getUnloadedProcTiles():
+            if tile not in tilesToLoad:
+                tilesToLoad.append(tile)
+        return tilesToLoad

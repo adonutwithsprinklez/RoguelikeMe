@@ -48,3 +48,9 @@ class DatapackObject(object):
     
     def getRegionData(self, region):
         return self.regions[region]
+    
+    def getProcs(self, procs):
+        procsToReturn = {}
+        for proc in procs:
+            procsToReturn[proc] = self.procs[proc]
+        return procsToReturn
