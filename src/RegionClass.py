@@ -78,6 +78,7 @@ class RegionObject(object):
                 self.placeProc(args)
         # Clear temporary variables
         self.tempVariables = {}
+        self.procs = {}
 
     # Generation functions
     def setVariable(self, args):
@@ -116,8 +117,11 @@ class RegionObject(object):
         for row in variation:
             xOffset = 0
             for tile in row:
-                tile = "{}-{}".format(proc.procID,tile)
-                self.chunk[placeX + xOffset][placeY + yOffset] = tile
+                if tile != " ":
+                    tile = "{}-{}".format(proc.procID,tile)
+                    self.chunk[placeX + xOffset][placeY + yOffset] = tile
+                else:
+                    pass
                 xOffset+=1
             yOffset+=1
 

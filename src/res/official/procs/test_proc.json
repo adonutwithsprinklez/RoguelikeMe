@@ -10,12 +10,26 @@
     ],
     "Variations":[
         [
-            "wwwwwwww",
-            "w......w",
-            "w......w",
-            "w......w",
-            "w......w",
-            "www[wwww"
+            "wwwwwwwww",
+            "w...w...w",
+            "w...[...w",
+            "w...wwwww",
+            "w.......w",
+            "w.......w",
+            "w.......w",
+            "ww[ww...w",
+            "    w...w",
+            "    wwwww"
+        ],
+        [
+            "wwwwwwwww",
+            "w...w...w",
+            "w...w...w",
+            "ww[ww...w",
+            "w.......w",
+            "w.......w",
+            "w.......w",
+            "ww[wwwwww"
         ]
     ]
 }
